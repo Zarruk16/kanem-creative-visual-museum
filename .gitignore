@@ -9,3 +9,6 @@ dist
 # Unused high-res GLB variants (active model is 3dmodel-6mb.glb)
 public/assets/3dmodel.glb
 public/assets/3dmodel-23mb.glb
+
+# Unused hero video (active is hero.webm)
+public/assets/hero.mp4

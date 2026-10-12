@@ -4,7 +4,7 @@
  */
 export const assets = {
   heroImage: '/assets/hero.png',
-  heroVideo: '/assets/hero.mp4',
+  heroVideo: '/assets/hero.webm',
   exteriorModelGlb: '/assets/3dmodel-6mb.glb',
   exteriorModelThumb: '/assets/3dmodel-thumb.png',
   documentaryPhoto: '/assets/documentry.png',
