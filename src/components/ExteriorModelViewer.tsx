@@ -148,10 +148,11 @@ function SceneContent({ onReady }: { onReady?: () => void }) {
       <OrbitControls
         makeDefault
         enablePan={false}
-        enableZoom={false}
+        enableZoom
         enableDamping
         dampingFactor={0.08}
         rotateSpeed={0.55}
+        zoomSpeed={0.85}
       />
     </>
   )
@@ -255,6 +256,10 @@ export default function ExteriorModelViewer({
           <div
             className="exterior__canvas"
             onPointerDown={() => {
+              if (!active) return
+              setRotated(true)
+            }}
+            onWheel={() => {
               if (!active) return
               setRotated(true)
             }}
