@@ -3,7 +3,10 @@
  * Update paths here if assets are renamed or relocated.
  */
 export const assets = {
-  heroImage: '/assets/hero.png',
+  /** Optimized still (WebP) — used for LCP / poster */
+  heroImage: '/assets/hero.webp',
+  /** JPEG fallback for browsers without WebP */
+  heroImageFallback: '/assets/hero.jpg',
   heroVideo: '/assets/hero.webm',
   exteriorModelGlb: '/assets/3dmodel-6mb.glb',
   exteriorModelThumb: '/assets/3dmodel-thumb.png',

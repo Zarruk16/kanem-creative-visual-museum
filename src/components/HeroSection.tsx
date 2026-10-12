@@ -9,14 +9,26 @@ function prefersReducedMotion() {
 
 export default function HeroSection() {
   const videoRef = useRef<HTMLVideoElement>(null)
+  const [imageReady, setImageReady] = useState(false)
   const [videoReady, setVideoReady] = useState(false)
   const [allowVideo, setAllowVideo] = useState(true)
+  /** Hold video fetch until the still is on screen so LCP wins the network */
+  const [loadVideo, setLoadVideo] = useState(false)
 
   useEffect(() => {
     if (prefersReducedMotion()) {
       setAllowVideo(false)
       return
     }
+    if (!imageReady) return
+
+    // Small delay lets the still finish decode/paint before contending for bandwidth
+    const id = window.setTimeout(() => setLoadVideo(true), 120)
+    return () => window.clearTimeout(id)
+  }, [imageReady])
+
+  useEffect(() => {
+    if (!allowVideo || !loadVideo) return
 
     const video = videoRef.current
     if (!video) return
@@ -55,19 +67,25 @@ export default function HeroSection() {
       video.removeEventListener('loadeddata', onCanPlay)
       video.removeEventListener('error', onError)
     }
-  }, [allowVideo])
+  }, [allowVideo, loadVideo])
 
   return (
     <header className="hero" aria-label="Kanem Creative Visual Museum">
       <div className="hero__media" aria-hidden={!videoReady}>
-        <img
-          className={`hero__image${videoReady ? ' is-faded' : ''}`}
-          src={assets.heroImage}
-          alt="Kanem Creative Visual Museum building at sunset"
-          fetchPriority="high"
-          decoding="async"
-        />
-        {allowVideo ? (
+        <picture className="hero__picture">
+          <source srcSet={assets.heroImage} type="image/webp" />
+          <img
+            className={`hero__image${videoReady ? ' is-faded' : ''}`}
+            src={assets.heroImageFallback}
+            alt="Kanem Creative Visual Museum building at sunset"
+            fetchPriority="high"
+            decoding="sync"
+            width={1915}
+            height={1078}
+            onLoad={() => setImageReady(true)}
+          />
+        </picture>
+        {allowVideo && loadVideo ? (
           <video
             ref={videoRef}
             className={`hero__video${videoReady ? ' is-ready' : ''}`}

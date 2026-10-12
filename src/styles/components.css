@@ -207,6 +207,12 @@
   inset: 0;
 }
 
+.hero__picture {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+
 .hero__image,
 .hero__video {
   position: absolute;
